@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlayerCollisionHandler : MonoBehaviour
 {    
-
     public event Action<IInteractable> CollisionDetected;
 
     private void OnValidate()
