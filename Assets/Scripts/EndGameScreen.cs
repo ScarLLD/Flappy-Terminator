@@ -1,3 +1,5 @@
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using System;
 
 public class EndGameScreen : Window

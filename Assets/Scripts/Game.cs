@@ -30,7 +30,6 @@ public class Game : MonoBehaviour
 
     private void OnGameOver()
     {
-        Debug.Log("Open End Screen");
         Time.timeScale = 0;
         _endGameScreen.Open();
     }

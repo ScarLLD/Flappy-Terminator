@@ -2,14 +2,12 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMover))]
-[RequireComponent(typeof(ScoreCounter))]
 [RequireComponent(typeof(PlayerCollisionHandler))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private BulletPool _pool;
 
     private PlayerMover _birdMover;
-    private ScoreCounter _scoreCounter;
     private PlayerCollisionHandler _handler;
 
     public event Action GameOver;
@@ -21,7 +19,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        _scoreCounter = GetComponent<ScoreCounter>();
         _handler = GetComponent<PlayerCollisionHandler>();
         _birdMover = GetComponent<PlayerMover>();
     }
@@ -48,7 +45,6 @@ public class Player : MonoBehaviour
 
     public void Reset()
     {
-        _scoreCounter.Reset();
         _birdMover.Reset();
     }
 }
