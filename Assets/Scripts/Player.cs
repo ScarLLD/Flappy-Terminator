@@ -4,10 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMover))]
 [RequireComponent(typeof(PlayerCollisionHandler))]
 public class Player : MonoBehaviour
-{
-    [SerializeField] private BulletPool _pool;
-
-    private PlayerMover _birdMover;
+{   
+    private PlayerMover _playerMover;
     private PlayerCollisionHandler _handler;
 
     public event Action GameOver;
@@ -20,16 +18,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _handler = GetComponent<PlayerCollisionHandler>();
-        _birdMover = GetComponent<PlayerMover>();
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            _pool.GetObject(transform);
-        }
-    }
+        _playerMover = GetComponent<PlayerMover>();
+    }    
 
     private void OnDisable()
     {
@@ -45,6 +35,6 @@ public class Player : MonoBehaviour
 
     public void Reset()
     {
-        _birdMover.Reset();
+        _playerMover.Reset();
     }
 }
