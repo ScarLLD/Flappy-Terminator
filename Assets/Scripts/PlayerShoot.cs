@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
@@ -12,5 +10,10 @@ public class PlayerShoot : MonoBehaviour
         {
             _pool.GetObject(transform);
         }
+    }
+
+    public void Reset()
+    {
+        _pool.Reset();
     }
 }

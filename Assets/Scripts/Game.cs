@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Game : MonoBehaviour
@@ -12,26 +11,28 @@ public class Game : MonoBehaviour
     {
         _startScreen.PlayButtonClicked += OnPlayButtonClick;
         _endGameScreen.RestartButtonClicked += OnRestartButtonClick;
-        _player.GameOver += OnGameOver;
+        _player.Dead += OnGameOver;
     }
 
     private void OnDisable()
     {
         _startScreen.PlayButtonClicked -= OnPlayButtonClick;
         _endGameScreen.RestartButtonClicked -= OnRestartButtonClick;
-        _player.GameOver -= OnGameOver;
+        _player.Dead -= OnGameOver;
     }
 
     private void Start()
     {
         Time.timeScale = 0;
         _startScreen.Open();
+        _player.SwitchInputStatus();
     }
 
     private void OnGameOver()
     {
         Time.timeScale = 0;
         _endGameScreen.Open();
+        _player.SwitchInputStatus();
     }
 
     private void OnRestartButtonClick()
@@ -49,6 +50,7 @@ public class Game : MonoBehaviour
     private void StartGame()
     {
         Time.timeScale = 1;
+        _player.SwitchInputStatus();
         _player.Reset();
     }
 }

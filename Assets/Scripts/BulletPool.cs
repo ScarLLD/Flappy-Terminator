@@ -1,58 +1,48 @@
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
+using static UnityEditor.Progress;
 
 public class BulletPool : MonoBehaviour
 {
     [SerializeField] private Transform _container;
-    [SerializeField] private GameObject _gameObjectPrefab;
+    [SerializeField] private Bullet _bulletPrefab;
 
-    private List<GameObject> _pool;
-
-    public IEnumerable<GameObject> PooledObjects => _pool;
+    private List<Bullet> _pool;
 
     private void Awake()
     {
-        _pool = new List<GameObject>();
+        _pool = new List<Bullet>();
     }
 
-    public void GetObject(Transform transformStorage)
+    public void GetObject(Transform transform)
     {
-        if (GetInactiveObjects().Count == 0)
+        if (TryGetBullet(out Bullet bullet))
         {
-            var obj = Instantiate(_gameObjectPrefab, transformStorage.position, transformStorage.rotation);
-            obj.transform.parent = _container;
-
-            _pool.Add(obj);
+            bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            bullet.gameObject.SetActive(true);
         }
         else
         {
-            GameObject objStorage = _gameObjectPrefab;
+            Bullet bulletStorage = Instantiate(_bulletPrefab, transform.position, transform.rotation);
+            bulletStorage.transform.parent = _container;
+            _pool.Add(bulletStorage);
 
-            foreach (var obj in _pool)
-            {
-                if (obj.activeInHierarchy == false)
-                {
-                    objStorage = obj;
-                }
-            }
-
-            objStorage.transform.SetPositionAndRotation(transformStorage.position, transformStorage.rotation);
-            objStorage.SetActive(true);
         }
     }
 
     public void Reset()
     {
-        _pool.Clear();
+        _pool.Where(bullet => bullet.gameObject.activeInHierarchy == true).Select
+            (bullet => { bullet.gameObject.SetActive(false); return bullet; });
     }
 
-    private List<GameObject> GetInactiveObjects()
+    private bool TryGetBullet(out Bullet bullet)
     {
-        List<GameObject> obj = new List<GameObject>();
+        bullet = _pool.FirstOrDefault(bullet => bullet.gameObject.activeInHierarchy == false);
 
-        obj = _pool.Where(obj => obj.activeInHierarchy == false).ToList();
-
-        return obj;
+        return bullet != null;
     }
 }

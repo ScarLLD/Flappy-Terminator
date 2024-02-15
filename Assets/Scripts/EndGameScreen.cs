@@ -1,5 +1,3 @@
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System;
 
 public class EndGameScreen : Window
@@ -8,12 +6,14 @@ public class EndGameScreen : Window
 
     public override void Close()
     {
-       gameObject.SetActive(false);
+        WindowGroup.alpha = 0f;
+        ActionButton.interactable = false;
     }
 
     public override void Open()
     {
-        gameObject.SetActive(true);
+        WindowGroup.alpha = 1f;
+        ActionButton.interactable  = true;
     }
 
     protected override void OnButtonClick()

@@ -18,7 +18,6 @@ public class PlayerCollisionHandler : MonoBehaviour
         {
             CollisionDetected?.Invoke(interactable);
             Time.timeScale = 0f;
-            Debug.Log("trigger");
         }
     }
 }

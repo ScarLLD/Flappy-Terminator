@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 4
-  _timeLife: 4
+  _timeLife: 3
 --- !u!50 &6302016396004251043
 Rigidbody2D:
   serializedVersion: 4
