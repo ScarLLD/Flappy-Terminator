@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _delay;
     [SerializeField] private float _lowerBound;
     [SerializeField] private float _upperBound;
-    [SerializeField] private EnemyPool _pool;
+    [SerializeField] private EnemyPool _enemyPool;
 
     private void Start()
     {
@@ -31,6 +31,6 @@ public class Spawner : MonoBehaviour
         float spawnPositionY = Random.Range(_upperBound, _lowerBound);
         Vector3 spawnPoint = new(transform.position.x, spawnPositionY, transform.position.z);
 
-        _pool.GetEnemy(spawnPoint);
+        _enemyPool.GetEnemy(spawnPoint);
     }
 }

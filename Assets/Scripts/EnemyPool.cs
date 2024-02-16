@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyPool : MonoBehaviour
 {
     [SerializeField] private Transform _container;
+    [SerializeField] private BulletPool _bulletPool;
     [SerializeField] private Enemy _enemyPrefab;
 
     private List<Enemy> _pool;
@@ -35,8 +36,11 @@ public class EnemyPool : MonoBehaviour
         else
         {
             Enemy enemyStorage = Instantiate(_enemyPrefab, spawnPoint, Quaternion.identity);
-            enemyStorage.transform.parent = _container;
+            enemyStorage.InitPool(_bulletPool);
+
             _pool.Add(enemyStorage);
+
+            enemyStorage.transform.parent = _container;
             enemyStorage.gameObject.SetActive(true);
         }
     }

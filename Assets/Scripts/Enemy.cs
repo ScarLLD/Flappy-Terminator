@@ -6,26 +6,25 @@ public class Enemy : IInteractable
     [SerializeField] private float _timeBetwenShots;
     [SerializeField] private string _bulletPoolTag;
 
-    private BulletPool _pool;
-    private Coroutine _coroutine;
+    private BulletPool _bulletPool;
+    private Coroutine _shootCoroutine;
     private WaitForSeconds _wait;
     private bool _isShooting = true;
 
     private void Awake()
     {
-        _pool = GameObject.FindWithTag(_bulletPoolTag).GetComponent<BulletPool>();
         _wait = new WaitForSeconds(_timeBetwenShots);
     }
 
     private void OnEnable()
     {
         if (_isShooting == false)
-            _coroutine = StartCoroutine(Shoot());
+            _shootCoroutine = StartCoroutine(Shoot());
     }
 
     private void Start()
     {
-        _coroutine = StartCoroutine(Shoot());
+        _shootCoroutine = StartCoroutine(Shoot());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,7 +35,12 @@ public class Enemy : IInteractable
     private void OnDisable()
     {
         _isShooting = false;
-        StopCoroutine(_coroutine);
+        StopCoroutine(_shootCoroutine);
+    }
+
+    public void InitPool(BulletPool bulletPool)
+    {
+        _bulletPool = bulletPool;
     }
 
     private IEnumerator Shoot()
@@ -45,7 +49,7 @@ public class Enemy : IInteractable
 
         while (_isShooting)
         {
-            _pool.GetBullet(transform);
+            _bulletPool.GetBullet(transform);
             yield return _wait;
         }
     }

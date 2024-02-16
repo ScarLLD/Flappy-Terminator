@@ -1438,6 +1438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 1884458701}
+  _bulletPool: {fileID: 792224427}
   _enemyPrefab: {fileID: 425248258734916063, guid: 736ac2d1f0d3e0645a5cb05fda3aeec0, type: 3}
 --- !u!4 &1347229600
 Transform:
@@ -1486,7 +1487,7 @@ MonoBehaviour:
   _delay: 3
   _lowerBound: -4
   _upperBound: 4
-  _pool: {fileID: 1347229599}
+  _enemyPool: {fileID: 1347229599}
 --- !u!4 &1668802385
 Transform:
   m_ObjectHideFlags: 0

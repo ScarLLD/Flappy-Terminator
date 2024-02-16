@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(Collider2D))]
 
 public class PlayerCollisionHandler : MonoBehaviour
 {    
