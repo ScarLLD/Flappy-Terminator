@@ -24,7 +24,7 @@ public class Bullet : IInteractable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Disable();
+            Disable();
     }
 
     private void OnDisable()
@@ -35,7 +35,6 @@ public class Bullet : IInteractable
     private void Disable()
     {
         gameObject.SetActive(false);
-
     }
 
     private IEnumerator Liquidate()

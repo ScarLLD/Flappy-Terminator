@@ -13,7 +13,7 @@ public class EndGameScreen : Window
     public override void Open()
     {
         WindowGroup.alpha = 1f;
-        ActionButton.interactable  = true;
+        ActionButton.interactable = true;
     }
 
     protected override void OnButtonClick()

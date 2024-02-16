@@ -6,19 +6,15 @@ public class Game : MonoBehaviour
     [SerializeField] private Spawner _enemyGenerator;
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private EndGameScreen _endGameScreen;
+    [SerializeField] private EnemyPool _enemyPool;
+    [SerializeField] private BulletPool _enemyBulletPool;
+    [SerializeField] private BulletPool _playerBulletPool;
 
     private void OnEnable()
     {
         _startScreen.PlayButtonClicked += OnPlayButtonClick;
         _endGameScreen.RestartButtonClicked += OnRestartButtonClick;
         _player.Dead += OnGameOver;
-    }
-
-    private void OnDisable()
-    {
-        _startScreen.PlayButtonClicked -= OnPlayButtonClick;
-        _endGameScreen.RestartButtonClicked -= OnRestartButtonClick;
-        _player.Dead -= OnGameOver;
     }
 
     private void Start()
@@ -28,6 +24,13 @@ public class Game : MonoBehaviour
         _player.SwitchInputStatus();
     }
 
+    private void OnDisable()
+    {
+        _startScreen.PlayButtonClicked -= OnPlayButtonClick;
+        _endGameScreen.RestartButtonClicked -= OnRestartButtonClick;
+        _player.Dead -= OnGameOver;
+    }
+    
     private void OnGameOver()
     {
         Time.timeScale = 0;
@@ -52,5 +55,8 @@ public class Game : MonoBehaviour
         Time.timeScale = 1;
         _player.SwitchInputStatus();
         _player.Reset();
+        _enemyPool.Reset();
+        _enemyBulletPool.Reset();
+        _playerBulletPool.Reset();
     }
 }

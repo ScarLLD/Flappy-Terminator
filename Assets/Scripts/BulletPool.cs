@@ -1,27 +1,36 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class BulletPool : MonoBehaviour
 {
     [SerializeField] private Transform _container;
     [SerializeField] private Bullet _bulletPrefab;
+    [SerializeField] private float _bulletRotationZ;
 
     private List<Bullet> _pool;
+
+    public void Reset()
+    {
+        var timePool = _pool.Where(bullet => bullet.gameObject.activeInHierarchy == true).ToList();
+
+        for (int i = 0; i < timePool.Count; i++)
+        {
+            timePool[i].gameObject.SetActive(false);
+        }
+    }
 
     private void Awake()
     {
         _pool = new List<Bullet>();
-    }
+    }  
 
-    public void GetObject(Transform transform)
+    public void GetBullet(Transform transformStorage)
     {
         if (TryGetBullet(out Bullet bullet))
         {
-            bullet.transform.SetPositionAndRotation(transform.position, transform.rotation);
+            bullet.transform.SetPositionAndRotation
+                (transformStorage.position, transform.rotation * Quaternion.Euler(0, 0, _bulletRotationZ)); ;
             bullet.gameObject.SetActive(true);
         }
         else
@@ -29,14 +38,7 @@ public class BulletPool : MonoBehaviour
             Bullet bulletStorage = Instantiate(_bulletPrefab, transform.position, transform.rotation);
             bulletStorage.transform.parent = _container;
             _pool.Add(bulletStorage);
-
         }
-    }
-
-    public void Reset()
-    {
-        _pool.Where(bullet => bullet.gameObject.activeInHierarchy == true).Select
-            (bullet => { bullet.gameObject.SetActive(false); return bullet; });
     }
 
     private bool TryGetBullet(out Bullet bullet)

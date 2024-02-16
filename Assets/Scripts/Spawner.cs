@@ -29,11 +29,8 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         float spawnPositionY = Random.Range(_upperBound, _lowerBound);
-        Vector3 spawnPoint = new Vector3(transform.position.x, spawnPositionY, transform.position.z);
+        Vector3 spawnPoint = new(transform.position.x, spawnPositionY, transform.position.z);
 
-        var enemy = _pool.GetObject();
-
-        enemy.gameObject.SetActive(true);
-        enemy.transform.position = spawnPoint;
+        _pool.GetEnemy(spawnPoint);
     }
 }

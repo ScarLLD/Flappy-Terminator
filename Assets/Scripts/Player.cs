@@ -12,27 +12,27 @@ public class Player : MonoBehaviour
 
     public event Action Dead;
 
-    private void OnEnable()
+    public void Reset()
     {
-        _handler.CollisionDetected += ProcessCollision;
+        _playerMover.Reset();
+        _playerShoot.Reset();
     }
-
+    
     private void Awake()
     {
         _handler = GetComponent<PlayerCollisionHandler>();
         _playerMover = GetComponent<PlayerMover>();
         _playerShoot = GetComponent<PlayerShoot>();
-    }
+    }    
+
+    private void OnEnable()
+    {
+        _handler.CollisionDetected += ProcessCollision;
+    }    
 
     private void OnDisable()
     {
         _handler.CollisionDetected -= ProcessCollision;
-    }
-
-    public void Reset()
-    {
-        _playerMover.Reset();
-        _playerShoot.Reset();
     }
 
     public void SwitchInputStatus()

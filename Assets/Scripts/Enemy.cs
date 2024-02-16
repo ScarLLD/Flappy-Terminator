@@ -4,23 +4,23 @@ using UnityEngine;
 public class Enemy : IInteractable
 {
     [SerializeField] private float _timeBetwenShots;
-    [SerializeField] private  string _bulletPoolTag;
+    [SerializeField] private string _bulletPoolTag;
 
     private BulletPool _pool;
     private Coroutine _coroutine;
     private WaitForSeconds _wait;
     private bool _isShooting = true;
 
-    private void OnEnable()
-    {
-        if (_isShooting == false)
-            _coroutine = StartCoroutine(Shoot());
-    }
-
     private void Awake()
     {
         _pool = GameObject.FindWithTag(_bulletPoolTag).GetComponent<BulletPool>();
         _wait = new WaitForSeconds(_timeBetwenShots);
+    }
+
+    private void OnEnable()
+    {
+        if (_isShooting == false)
+            _coroutine = StartCoroutine(Shoot());
     }
 
     private void Start()
@@ -45,7 +45,7 @@ public class Enemy : IInteractable
 
         while (_isShooting)
         {
-            _pool.GetObject(transform);
+            _pool.GetBullet(transform);
             yield return _wait;
         }
     }

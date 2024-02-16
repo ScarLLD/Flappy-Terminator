@@ -14,6 +14,12 @@ public class PlayerMover : MonoBehaviour
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
 
+    public void Reset()
+    {
+        transform.SetPositionAndRotation(_startPosition, Quaternion.identity);
+        _rigidbody2D.velocity = Vector2.zero;
+    }
+
     private void Awake()
     {
         _startPosition = transform.position;
@@ -34,11 +40,5 @@ public class PlayerMover : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Lerp(transform.rotation, _minRotation, _rotationSpeed * Time.deltaTime);
-    }
-
-    public void Reset()
-    {
-        transform.SetPositionAndRotation(_startPosition, Quaternion.identity);
-        _rigidbody2D.velocity = Vector2.zero;
-    }
+    }    
 }

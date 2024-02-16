@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EnemyPool : MonoBehaviour
@@ -6,36 +7,43 @@ public class EnemyPool : MonoBehaviour
     [SerializeField] private Transform _container;
     [SerializeField] private Enemy _enemyPrefab;
 
-    private Queue<Enemy> _pool;
-
-    public IEnumerable<Enemy> PooledObjects => _pool;
-
-    private void Awake()
-    {
-        _pool = new Queue<Enemy>();
-    }
-
-    public Enemy GetObject()
-    {
-        if (_pool.Count == 0)
-        {
-            var enemy = Instantiate(_enemyPrefab, transform.position, transform.rotation);
-            enemy.transform.parent = _container;
-
-            return enemy;
-        }
-
-        return _pool.Dequeue();
-    }
-
-    public void PutObject(Enemy enemy)
-    {
-        _pool.Enqueue(enemy);
-        enemy.gameObject.SetActive(false);
-    }
+    private List<Enemy> _pool;
 
     public void Reset()
     {
-        _pool.Clear();
+        var timePool = _pool.Where(enemy => enemy.gameObject.activeInHierarchy == true).ToList();
+
+        for (int i = 0; i < timePool.Count; i++)
+        {
+            timePool[i].gameObject.SetActive(false);
+        }
+    }
+
+    private void Awake()
+    {
+        _pool = new List<Enemy>();
+    }
+
+    public void GetEnemy(Vector3 spawnPoint)
+    {
+        if (TryGetEnemy(out Enemy enemy))
+        {
+            enemy.transform.position = spawnPoint;
+            enemy.gameObject.SetActive(true);
+
+        }
+        else
+        {
+            Enemy enemyStorage = Instantiate(_enemyPrefab, spawnPoint, Quaternion.identity);
+            enemyStorage.transform.parent = _container;
+            _pool.Add(enemyStorage);
+            enemyStorage.gameObject.SetActive(true);
+        }
+    }
+
+    private bool TryGetEnemy(out Enemy enemy)
+    {
+        enemy = _pool.FirstOrDefault(enemy => enemy.gameObject.activeInHierarchy == false);
+        return enemy != null;
     }
 }
